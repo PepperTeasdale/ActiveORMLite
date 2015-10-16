@@ -11,19 +11,3 @@ class AttrAccessorObject
     end
   end
 end
-
-class Cat < AttrAccessorObject
-  my_attr_accessor :name
-
-  def initialize(name)
-    @name = name
-  end
-end
-
-c = Cat.new("lucky")
-
-p c.name
-
-c.name = "stripe"
-
-p c.name

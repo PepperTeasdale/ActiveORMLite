@@ -53,7 +53,6 @@ describe SQLObject do
     it '::columns created setter methods use attributes hash to store data' do
       c = Cat.new
       c.name = "Nick Diaz"
-      # byebug
       expect(c.instance_variables).to eq [:@attributes]
       expect(c.attributes[:name]).to eq 'Nick Diaz'
     end

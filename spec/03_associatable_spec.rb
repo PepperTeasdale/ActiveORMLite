@@ -65,7 +65,7 @@ describe 'AssocOptions' do
       options = HasManyOptions.new('cats', 'Human')
       expect(options.model_class).to eq(Cat)
     end
-    
+
     it '#table_name returns table name of associated object' do
       options = BelongsToOptions.new('human')
       expect(options.table_name).to eq('humans')
@@ -151,7 +151,6 @@ describe 'Associatable' do
     it 'fetches `humans` from `House`' do
       expect(ned_house).to respond_to(:humans)
       humans = ned_house.humans
-
       expect(humans.length).to eq(1)
       expect(humans[0]).to be_instance_of(Human)
       expect(humans[0].fname).to eq('Ned')

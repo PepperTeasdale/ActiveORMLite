@@ -57,6 +57,7 @@ module Associatable
     options = BelongsToOptions.new(name.to_s, options)
 
     assoc_options[name] = options
+    
     define_method(name) do
       fk = self.send(options.foreign_key)
       target_model = options.model_class

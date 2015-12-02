@@ -65,6 +65,7 @@ class SQLObject
         id = ?
       LIMIT 1
     SQL
+    
     result.empty? ? nil : self.new(result.first)
   end
 

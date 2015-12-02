@@ -1,4 +1,4 @@
-require_relative '02_searchable'
+require_relative 'searchable'
 require 'active_support/inflector'
 require 'byebug'
 
@@ -38,7 +38,6 @@ class HasManyOptions < AssocOptions
   def initialize(name, self_class_name, options = {})
     default_fk = self_class_name.underscore
 
-    # byebug
     default_options = {
       foreign_key: "#{default_fk}_id".to_sym,
       primary_key: :id,
@@ -52,7 +51,6 @@ class HasManyOptions < AssocOptions
 end
 
 module Associatable
-  # Phase IIIb
   def belongs_to(name, options = {})
     options = BelongsToOptions.new(name.to_s, options)
 
@@ -79,6 +77,31 @@ module Associatable
 
   def assoc_options
     @assoc_options ||= {}
+  end
+
+  def has_one_through(name, through_name, source_name)
+    through_options = self.assoc_options[through_name]
+    define_method(name) do
+      source_options = through_options
+                       .model_class
+                       .assoc_options[source_name]
+
+      owner_id = self.send("#{through_name}").send("#{through_options.primary_key}")
+      query = <<-SQL
+        SELECT
+          #{source_options.table_name}.*
+        FROM
+          #{through_options.table_name}
+        JOIN
+          #{source_options.table_name}
+        ON #{through_options.table_name}.#{source_options.foreign_key} = #{source_options.table_name}.#{through_options.primary_key}
+        WHERE
+          #{through_options.table_name}.#{through_options.primary_key} = ?
+      SQL
+
+      results = DBConnection.execute(query, owner_id)
+      source_options.model_class.parse_all(results).first
+    end
   end
 end
 

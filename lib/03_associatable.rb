@@ -1,7 +1,7 @@
 require_relative '02_searchable'
 require 'active_support/inflector'
 require 'byebug'
-# Phase IIIa
+
 class AssocOptions
   attr_accessor(
     :foreign_key,
@@ -57,7 +57,7 @@ module Associatable
     options = BelongsToOptions.new(name.to_s, options)
 
     assoc_options[name] = options
-    
+
     define_method(name) do
       fk = self.send(options.foreign_key)
       target_model = options.model_class

@@ -47,3 +47,8 @@ of class and instance methods, such as:
 
 Additionally, you can create associations between tables with the `has_many`,
 `belongs_to`, and `has_one_through` macros.
+
+Todos
+-----
+* Make where queries stackable
+* Add has_many_through

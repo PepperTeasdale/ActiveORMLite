@@ -65,16 +65,16 @@ class SQLObject
         id = ?
       LIMIT 1
     SQL
-    
+
     result.empty? ? nil : self.new(result.first)
   end
 
   def initialize(params = {})
+    columns = self.class.columns
+
     params.each do |attr_name, value|
       attr_name = attr_name.to_sym
-      unless self.class.columns.include?(attr_name)
-        raise "unknown attribute '#{attr_name}'"
-      end
+      raise "unknown attribute '#{attr_name}'" unless columns.include?(attr_name)
       self.send("#{attr_name}=", value)
     end
   end

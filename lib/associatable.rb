@@ -86,7 +86,7 @@ module Associatable
                        .model_class
                        .assoc_options[source_name]
 
-      owner_id = self.send("#{through_name}").send("#{through_options.primary_key}")
+      owner_id = self.send(through_name).id
       query = <<-SQL
         SELECT
           #{source_options.table_name}.*
